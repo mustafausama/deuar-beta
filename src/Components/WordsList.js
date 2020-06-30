@@ -19,7 +19,13 @@ class WordsList extends Component {
         }
         this.handleNewWordAdd = this.handleNewWordAdd.bind(this);
         this.handleNewWordChange = this.handleNewWordChange.bind(this);
+
     }
+
+    borderColor = {
+        borderColor: this.props.bgColor,
+        outlineColor: this.props.bgColor
+    };
 
     handleNewWordAdd(e) {
         e.preventDefault();
@@ -39,26 +45,25 @@ class WordsList extends Component {
         return words.map((word) =>
             <Word removeWord={this.props.removeWordHandler} bgColor={this.props.bgColor} txColor={this.props.txColor} word={word} article={article} />
         )
-    } 
+    }
 
     render() {
-        const article = this.props.article;
         return (
             <div>
                 <Form onSubmit={this.handleNewWordAdd}>
                     <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                            <InputGroupText style={{borderBottomLeftRadius: '0', backgroundColor: this.props.bgColor, border: 'transparent', color: this.props.txColor}}>{article}</InputGroupText>
+                        <InputGroupAddon className="d-none d-md-flex" addonType="prepend">
+                            <InputGroupText style={{borderBottomLeftRadius: '0', backgroundColor: this.props.bgColor, border: 'transparent', color: this.props.txColor}}>{this.props.article}</InputGroupText>
                         </InputGroupAddon>
-                        <Input placeholder="word" value={this.state.newWord} onChange={this.handleNewWordChange}/>
+                        <Input style={this.borderColor} placeholder="word" value={this.state.newWord} onChange={this.handleNewWordChange}/>
                         <InputGroupAddon addonType="append">
-                            <Button type="submit" style={{borderBottomRightRadius: '0'}} outline color="info">Add</Button>
+                            <Button type="submit" style={{...{borderBottomRightRadius: '0', color: this.props.bgColor}, ...this.borderColor}} outline color="light">Add</Button>
                         </InputGroupAddon>
                     </InputGroup>
                 </Form>
                 <ListGroup style={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}}>
-                    {this.renderList(this.props.words, article)}
-                    <Word bgColor={this.props.bgColor} txColor={this.props.txColor} style={{backgroundColor: 'black'}} word={{value: this.state.newWord, energy: 0}} article={article} />
+                    {this.renderList(this.props.words, this.props.article)}
+                    <Word bgColor={this.props.bgColor} txColor={this.props.txColor} style={{backgroundColor: 'black'}} word={{value: this.state.newWord, energy: 0}} article={this.props.article} />
                 </ListGroup>
             </div>
         )
