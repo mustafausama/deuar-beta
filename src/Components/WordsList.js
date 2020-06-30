@@ -16,10 +16,11 @@ class WordsList extends Component {
         super(props);
         this.state = {
             newWord: '',
+            newWordMeaning: ''
         }
         this.handleNewWordAdd = this.handleNewWordAdd.bind(this);
         this.handleNewWordChange = this.handleNewWordChange.bind(this);
-
+        this.handleNewWordMeaningChange = this.handleNewWordMeaningChange.bind(this);
     }
 
     borderColor = {
@@ -30,8 +31,8 @@ class WordsList extends Component {
     handleNewWordAdd(e) {
         e.preventDefault();
         if(this.state.newWord) {
-            this.props.newWordHandler(this.state.newWord, this.props.article);
-            this.setState({newWord: ''})
+            this.props.newWordHandler(this.state.newWord, this.state.newWordMeaning, this.props.article);
+            this.setState({newWord: '', newWordMeaning: ''})
         }
     }
 
@@ -40,10 +41,15 @@ class WordsList extends Component {
             newWord: e.target.value
         })
     }
+    handleNewWordMeaningChange(e) {
+        this.setState({
+            newWordMeaning: e.target.value
+        })
+    }
 
     renderList(words, article) {
         return words.map((word) =>
-            <Word removeWord={this.props.removeWordHandler} bgColor={this.props.bgColor} txColor={this.props.txColor} word={word} article={article} />
+            <Word key={word.id} removeWord={this.props.removeWordHandler} bgColor={this.props.bgColor} txColor={this.props.txColor} word={word} article={article} />
         )
     }
 
@@ -56,6 +62,7 @@ class WordsList extends Component {
                             <InputGroupText style={{borderBottomLeftRadius: '0', backgroundColor: this.props.bgColor, border: 'transparent', color: this.props.txColor}}>{this.props.article}</InputGroupText>
                         </InputGroupAddon>
                         <Input style={this.borderColor} placeholder="word" value={this.state.newWord} onChange={this.handleNewWordChange}/>
+                        <Input style={this.borderColor} placeholder="meaning (optional)" value={this.state.newWordMeaning} onChange={this.handleNewWordMeaningChange}/>
                         <InputGroupAddon addonType="append">
                             <Button type="submit" style={{...{borderBottomRightRadius: '0', color: this.props.bgColor}, ...this.borderColor}} outline color="light">Add</Button>
                         </InputGroupAddon>
@@ -63,7 +70,7 @@ class WordsList extends Component {
                 </Form>
                 <ListGroup style={{borderTopLeftRadius: '0', borderTopRightRadius: '0'}}>
                     {this.renderList(this.props.words, this.props.article)}
-                    <Word bgColor={this.props.bgColor} txColor={this.props.txColor} style={{backgroundColor: 'black'}} word={{value: this.state.newWord, energy: 0}} article={this.props.article} />
+                    <Word bgColor={this.props.bgColor} txColor={this.props.txColor} style={{backgroundColor: 'black'}} word={{value: this.state.newWord, meaning: this.state.newWordMeaning, energy: 0}} article={this.props.article} />
                 </ListGroup>
             </div>
         )
