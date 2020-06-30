@@ -52,7 +52,7 @@ class Main extends Component {
     }
     
     renderHome() {
-        const token = cookies.get('token');
+        //const token = cookies.get('token');
         //if(token !== undefined)
             return(
                 <div className="container-fluid">
