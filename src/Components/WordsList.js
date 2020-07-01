@@ -49,7 +49,7 @@ class WordsList extends Component {
 
     renderList(words, article) {
         return words.map((word) =>
-            <Word key={word.id} removeWord={this.props.removeWordHandler} bgColor={this.props.bgColor} txColor={this.props.txColor} word={word} article={article} />
+            <Word key={word.id} energyIncrease={this.props.energyIncrease} energyDecrease={this.props.energyDecrease} removeWordHandler={this.props.removeWordHandler} bgColor={this.props.bgColor} txColor={this.props.txColor} word={word} article={article} />
         )
     }
 
